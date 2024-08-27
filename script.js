@@ -1,19 +1,52 @@
 document.addEventListener('DOMContentLoaded', function() {
+    populateKeyboard();
     setWord();
+    document.addEventListener('keydown', handleKeyPress);
 });
 
-function setWord() {
-    fetch('https://random-word-api.herokuapp.com/word?length=5')
-        .then(response => response.json())
-        .then(data => {
-            targetWord = data[0].toUpperCase();
-            console.log(`The word to guess is: ${targetWord}`);
-        })
-        .catch(error => console.error('Error fetching word:', error));
-}
+const board = document.getElementById('board');
 
-document.addEventListener('keydown', handleKeyPress);
-document.querySelectorAll('.key').forEach(key => key.addEventListener('click', handleButtonClick));
+function populateKeyboard() {
+    const qwertyLayout = [
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+    ];
+
+    const keyboard = document.getElementById('keyboard');
+    qwertyLayout.forEach(row => {
+        const rowDiv = document.createElement('div');
+        rowDiv.classList.add('keyboard-row');
+      
+        row.forEach(key => {
+            const keyDiv = document.createElement('div');
+            keyDiv.classList.add('key');
+            keyDiv.textContent = key;
+            keyDiv.id = key;
+            keyDiv.setAttribute('data-key', key);
+            rowDiv.appendChild(keyDiv);
+        });
+      
+        keyboard.appendChild(rowDiv);
+    });
+
+    // Add Enter and Backspace keys
+    const bottomRow = document.querySelector('.keyboard-row:last-child');
+    const enterKeyDiv = document.createElement('div');
+    enterKeyDiv.classList.add('key', 'key-enter');
+    enterKeyDiv.innerHTML = '<p class="go">ENTER</p>';
+    enterKeyDiv.setAttribute('data-key', 'Enter');
+    bottomRow.insertBefore(enterKeyDiv, bottomRow.firstChild);
+
+    const backspaceKeyDiv = document.createElement('div');
+    backspaceKeyDiv.classList.add('key', 'key-backspace');
+    backspaceKeyDiv.innerHTML = '<i class="fa-regular fa-delete-left"></i>';
+    backspaceKeyDiv.setAttribute('data-key', 'Backspace');
+    bottomRow.appendChild(backspaceKeyDiv);
+
+    // Attach event listeners only once
+    document.querySelectorAll('.key').forEach(key => key.addEventListener('click', handleButtonClick));
+}
 
 function handleKeyPress(event) {
     if (event.key.match(/^[a-zA-Z]$/)) {
@@ -29,14 +62,15 @@ function handleKeyPress(event) {
 
 function handleButtonClick(event) {
     const key = event.target.getAttribute('data-key');
-    if (key) {
-        if (key === 'enter') {
-            checkGuess();
-        } else if (key === 'delete') {
-            deleteLetter();
-        } else {
-            addLetter(key.toUpperCase());
-        }
+    if (!key) {
+        return;
+    }
+    if (key === 'Enter') {
+        checkGuess();
+    } else if (key === 'Delete' || key === 'Backspace') {
+        deleteLetter();
+    } else {
+        addLetter(key.toUpperCase());
     }
 }
 
@@ -71,7 +105,7 @@ function checkGuess() {
         for (let i = 0; i < 5; i++) {
             targetLetterCount[targetWord[i]] = (targetLetterCount[targetWord[i]] || 0) + 1;
         }
-        
+
         const currentLetterCount = {};
 
         for (let i = 0; i < 5; i++) {
@@ -79,10 +113,9 @@ function checkGuess() {
             const letter = currentGuess[i];
 
             if (letter === targetWord[i]) {
-                box.style.backgroundColor = '#00a170';
-                box.style.color = 'white';
-                box.style.fontWeight = '500';
-                box.style.borderColor = '#00a170';
+                box.classList.add('true');
+                const matchingKey = document.getElementById(`${letter}`);
+                matchingKey.classList.add('key-true');
                 currentLetterCount[letter] = (currentLetterCount[letter] || 0) + 1;
             }
         }
@@ -93,16 +126,14 @@ function checkGuess() {
 
             if (letter !== targetWord[i]) {
                 if (targetWord.includes(letter) && (currentLetterCount[letter] || 0) < targetLetterCount[letter]) {
-                    box.style.backgroundColor = '#ffb100';
-                    box.style.color = 'white';
-                    box.style.fontWeight = '500';
-                    box.style.borderColor = '#ffb100';
+                    box.classList.add('partial');
+                    const matchingKey = document.getElementById(`${letter}`);
+                    matchingKey.classList.add('key-partial');
                     currentLetterCount[letter] = (currentLetterCount[letter] || 0) + 1;
                 } else {
-                    box.style.backgroundColor = '#ccc';
-                    box.style.color = 'white';
-                    box.style.fontWeight = '500';
-                    box.style.borderColor = '#ccc';
+                    box.classList.add('false');
+                    const matchingKey = document.getElementById(`${letter}`);
+                    matchingKey.classList.add('key-false');
                 }
             }
         }
@@ -120,30 +151,30 @@ function checkGuess() {
 
 function gameOver(isWin) {
     gameEnded = true;
-    const resultContainer = document.querySelector('.result');
-    const keyboardContainer = document.querySelector('.keyboard-container');
+    const resultContainer = document.getElementById('result');
+    const keyboard = document.getElementById('keyboard');
     resultContainer.style.display = 'flex';
-    keyboardContainer.style.display = 'none';
+    keyboard.style.display = 'none';
     if (isWin) {
         let tries = '';
         if (currentRow === 1) {
             tries = 'try';
         } else {
             tries = 'tries';
-        } 
+        }
         resultContainer.innerHTML = `
-            <h2 class="result-title win">You won!</h2>
-            <p class="result-text">You guessed the correct word in ${currentRow} ${tries} 🥳</p>
-            <button class="play-btn" id="play-again">Play again</button>
+            <h3 class="result-title title-win">You won!</h3>
+            <p class="result-text">You guessed the correct word in ${currentRow} ${tries} 🎉</p>
+            <button class="play-again-btn" id="play-again-btn">Play again</button>
         `;
     } else {
         resultContainer.innerHTML = `
-            <h2 class="result-title">Game over!</h2>
-            <p class="result-text">The correct word was ${targetWord}</p>
-            <button class="play-btn" id="play-again">Play again</button>
+            <h3 class="result-title title-lose">Game over!</h3>
+            <p class="result-text">The correct word was ${targetWord.toUpperCase()}.</p>
+            <button class="play-again-btn" id="play-again-btn">Play again</button>
         `;
     }
-    document.getElementById('play-again').addEventListener('click', resetGame);
+    document.getElementById('play-again-btn').addEventListener('click', resetGame);
 }
 
 function resetGame() {
@@ -151,15 +182,32 @@ function resetGame() {
     currentRow = 1;
     gameEnded = false;
     const boxes = document.querySelectorAll('.box');
-    const keyboardContainer = document.querySelector('.keyboard-container');
-    keyboardContainer.style.display = 'flex';
     boxes.forEach(box => {
         box.textContent = '';
-        box.style.backgroundColor = '#f1f1f1';
-        box.style.color = 'black';
-        box.style.fontWeight = 'normal';
-        box.style.borderColor = '#ccc';
     });
-    document.querySelector('.result').style.display = 'none';
+    const keyboard = document.getElementById('keyboard');
+    keyboard.style.display = 'flex';
+    boxes.forEach(box => {
+        box.classList.remove('true');
+        box.classList.remove('false');
+        box.classList.remove('partial');
+    });
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => {
+        key.classList.remove('key-true');
+        key.classList.remove('key-partial');
+        key.classList.remove('key-false');
+    });
+    document.getElementById('result').style.display = 'none';
     setWord();
+}
+
+function setWord() {
+    fetch('https://random-word-api.herokuapp.com/word?length=5')
+        .then(response => response.json())
+        .then(data => {
+            targetWord = data[0].toUpperCase();
+            console.log(`The correct word is: ${targetWord}`);
+        })
+        .catch(error => console.error('Error fetching word:', error));
 }
