@@ -1,144 +1,172 @@
 * {
-    font-family: 'Helvetica Neue';
+    font-family: 'Helvetica Neue', sans-serif;
     box-sizing: border-box;
 }
 
-.container {
-    width: 70vw;
+body, html {
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    max-width: 80vw;
     margin: auto;
-    max-width: none;
+    align-items: center;
     height: 100vh;
 }
 
-.board {
+h1 {
+    font-size: 1.5rem;
+    padding: 1rem 1rem 1.5rem 1rem;
+}
+
+#board {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    width: fit-content;
-    margin: auto;
-    margin-top: 2.5rem;
+    gap: 1.125rem;
 
     .row {
         display: flex;
-        flex-direction: row;
-        gap: 0.625rem;
-        width: fit-content;
-        
+        gap: 0.75rem;
+
         .box {
-            width: 2.5rem;
             height: 3rem;
-            border: 1px solid #ccc;
-            background: #f1f1f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-    }
-}
-
-.keyboard {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    justify-content: center;
-    width: fit-content;
-    align-items: center;
-    margin: auto;
-
-    .key-row {
-        display: flex;
-        flex-direction: row;
-        gap: 0.5rem;
-        width: fit-content;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-
-        .key {
-            width: 3rem;
-            height: 3.25rem;
-            background: #eee;
+            width: 2.5rem;
+            border: 2px solid #e4e4e4;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 500;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: ease 0.2s;
+            color: #222;
         }
 
-        .key:hover {
-            background: #ddd;
-        }
-
-        .enter {
-            font-size: 9px;
-            font-weight: 700;
-            background: #008cff;
+        .true {
+            background: #07ac7b;
+            border: 2px solid #07ac7b;
             color: white;
-            border: none;
         }
 
-        .enter:hover {
-            background: #1e9aff;
+        .partial {
+            background: #e0b825;
+            color: white;
+            border: 2px solid #e0b825;
+        }
+
+        .false {
+            background: #aaa;
+            border: 2px solid #aaa;
+            color: white;
         }
     }
 }
 
-.keyboard-container {
-    width: 70vw;
+#keyboard {
     display: flex;
-    margin-top: 3rem;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.result {
-    display: none;
-    width: 70vw;
-    justify-content: center;
-    margin: auto;
-    padding-top: 2rem;
     flex-direction: column;
     gap: 0.75rem;
-    margin-top: 2rem;
+    align-items: center;
+    margin-top: 2.5rem;
 
-    h2 {
-        font-size: 1.5rem;
-        text-align: center;
-        margin: 0;
-    }
-    p {
-        font-size: 1.125rem;
-        text-align: center;
-        margin-bottom: 0.75rem;
-        margin-top: 0;
-    }
-    button {
-        padding: 0.875rem 1rem;
-        border: none;
-        background: #008cff;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        color: white;
-        font-size: 15px;
-        font-weight: 500;
-        margin: auto;
-        width: fit-content;
-        transition: ease 0.2s;
-    }
-    button:hover {
-        background: #1e9aff;
-        scale: 1.05;
+    .keyboard-row {
+        display: flex;
+        gap: 0.625rem;
+
+        .key {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: #333;
+            width: 2.25rem;
+            display: flex;
+            height: 2.625rem;
+            background: #eee;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: ease 0.2s;
+            border-radius: 0.25rem;
+        }
+        .key-true {
+            background: #00a170;
+            color: white;
+        }
+
+        .key-false {
+            background: #aaa;
+            color: white;
+        }
+
+        .key-partial {
+            background: #e0b825;
+            color: white;
+        }
+        .key-enter {
+            background: #1677ff25;
+            color: #1677ff;
+            width: 3.5rem;
+            margin-right: 0.25rem;
+            transition: ease 0.2s;
+
+            .go {
+                font-size: 0.75rem;
+                letter-spacing: 0.25px;
+                font-weight: 500;
+            }
+        }
+        .key-enter:hover {
+            background: #1677ff;
+            color: white;
+        }
+        .key-backspace {
+            width: 2.75rem;
+            background: #ff000020;
+            color: #ff0000;
+            margin-left: 0.125rem;
+            transition: ease 0.2s;
+        }
+        .key-backspace:hover {
+            color: white;
+            background: #ff0000;
+        }
     }
 }
 
-.board-container {
-    width: 70vw;
+.spacer {
+    height: 2.5rem;
+}
+
+#result {
     display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     align-items: center;
-    justify-content: center;
+    max-width: 50vw;
     margin: auto;
+    margin-top: 2rem;
+
+    h3 {
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
+        line-height: 140%;
+    }
+
+    button {
+        padding: 0.75rem 1rem;
+        border: none;
+        background: #1677ff;
+        color: white;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: ease 0.2s;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.15px;
+    }
+    button:hover {
+        scale: 1.08;
+    }
 }
