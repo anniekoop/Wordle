@@ -8,95 +8,62 @@
     </head>
     <body>
         <main>
-            <div class="container">
-                <div class="board-container">
-                    <div class="board">
-                        <div class="row" id="guess-1">
-                            <div class="box" id="g1-l1"></div>
-                            <div class="box" id="g1-l2"></div>
-                            <div class="box" id="g1-l3"></div>
-                            <div class="box" id="g1-l4"></div>
-                            <div class="box" id="g1-l5"></div>
-                        </div>
-                        <div class="row" id="guess-2">
-                            <div class="box" id="g2-l1"></div>
-                            <div class="box" id="g2-l2"></div>
-                            <div class="box" id="g2-l3"></div>
-                            <div class="box" id="g2-l4"></div>
-                            <div class="box" id="g2-l5"></div>
-                        </div>
-                        <div class="row" id="guess-3">
-                            <div class="box" id="g3-l1"></div>
-                            <div class="box" id="g3-l2"></div>
-                            <div class="box" id="g3-l3"></div>
-                            <div class="box" id="g3-l4"></div>
-                            <div class="box" id="g3-l5"></div>
-                        </div>
-                        <div class="row" id="guess-4">
-                            <div class="box" id="g4-l1"></div>
-                            <div class="box" id="g4-l2"></div>
-                            <div class="box" id="g4-l3"></div>
-                            <div class="box" id="g4-l4"></div>
-                            <div class="box" id="g4-l5"></div>
-                        </div>
-                        <div class="row" id="guess-5">
-                            <div class="box" id="g5-l1"></div>
-                            <div class="box" id="g5-l2"></div>
-                            <div class="box" id="g5-l3"></div>
-                            <div class="box" id="g5-l4"></div>
-                            <div class="box" id="g5-l5"></div>
-                        </div>
-                        <div class="row" id="guess-6">
-                            <div class="box" id="g6-l1"></div>
-                            <div class="box" id="g6-l2"></div>
-                            <div class="box" id="g6-l3"></div>
-                            <div class="box" id="g6-l4"></div>
-                            <div class="box" id="g6-l5"></div>
-                        </div>
-                    </div>
+            <h1>Guess the 5-letter word!</h1>
+            <div id="guesses-left"></div>
+            
+            <div id="board">
+                <div id="guess-1" class="row">
+                    <div class="box" id="g1-l1"></div>
+                    <div class="box" id="g1-l2"></div>
+                    <div class="box" id="g1-l3"></div>
+                    <div class="box" id="g1-l4"></div>
+                    <div class="box" id="g1-l5"></div>
                 </div>
-                <div class="result"></div>
-                <div class="keyboard-container">
-                    <div class="keyboard">
-                        <div class="key-row">
-                            <div class="key" data-key="q" aria-disabled="false">Q</div>
-                            <div class="key" data-key="w" aria-disabled="false">W</div>
-                            <div class="key" data-key="e" aria-disabled="false">E</div>
-                            <div class="key" data-key="r" aria-disabled="false">R</div>
-                            <div class="key" data-key="t" aria-disabled="false">T</div>
-                            <div class="key" data-key="y" aria-disabled="false">Y</div>
-                            <div class="key" data-key="u" aria-disabled="false">U</div>
-                            <div class="key" data-key="i" aria-disabled="false">I</div>
-                            <div class="key" data-key="o" aria-disabled="false">O</div>
-                            <div class="key" data-key="p" aria-disabled="false">P</div>
-                        </div>
-                        <div class="key-row">
-                            <div class="key" data-key="a" aria-disabled="false">A</div>
-                            <div class="key" data-key="s" aria-disabled="false">S</div>
-                            <div class="key" data-key="d" aria-disabled="false">D</div>
-                            <div class="key" data-key="f" aria-disabled="false">F</div>
-                            <div class="key" data-key="g" aria-disabled="false">G</div>
-                            <div class="key" data-key="h" aria-disabled="false">H</div>
-                            <div class="key" data-key="j" aria-disabled="false">J</div>
-                            <div class="key" data-key="k" aria-disabled="false">K</div>
-                            <div class="key" data-key="l" aria-disabled="false">L</div>
-                        </div>
-                        <div class="key-row">
-                            <div class="key enter" data-key="enter" aria-disabled="false">ENTER</div>
-                            <div class="key" data-key="z" aria-disabled="false">Z</div>
-                            <div class="key" data-key="x" aria-disabled="false">X</div>
-                            <div class="key" data-key="c" aria-disabled="false">C</div>
-                            <div class="key" data-key="v" aria-disabled="false">V</div>
-                            <div class="key" data-key="b" aria-disabled="false">B</div>
-                            <div class="key" data-key="n" aria-disabled="false">N</div>
-                            <div class="key" data-key="m" aria-disabled="false">M</div>
-                            <div class="key delete" data-key="delete" aria-disabled="false"><i class="fa-solid fa-delete-left"></i></div>
-                        </div>
-                    </div>
+                <div id="guess-2" class="row">
+                    <div class="box" id="g2-l1"></div>
+                    <div class="box" id="g2-l2"></div>
+                    <div class="box" id="g2-l3"></div>
+                    <div class="box" id="g2-l4"></div>
+                    <div class="box" id="g2-l5"></div>
+                </div>
+                <div id="guess-3" class="row">
+                    <div class="box" id="g3-l1"></div>
+                    <div class="box" id="g3-l2"></div>
+                    <div class="box" id="g3-l3"></div>
+                    <div class="box" id="g3-l4"></div>
+                    <div class="box" id="g3-l5"></div>
+                </div>
+                <div id="guess-4" class="row">
+                    <div class="box" id="g4-l1"></div>
+                    <div class="box" id="g4-l2"></div>
+                    <div class="box" id="g4-l3"></div>
+                    <div class="box" id="g4-l4"></div>
+                    <div class="box" id="g4-l5"></div>
+                </div>
+                <div id="guess-5" class="row">
+                    <div class="box" id="g5-l1"></div>
+                    <div class="box" id="g5-l2"></div>
+                    <div class="box" id="g5-l3"></div>
+                    <div class="box" id="g5-l4"></div>
+                    <div class="box" id="g5-l5"></div>
+                </div>
+                <div id="guess-6" class="row">
+                    <div class="box" id="g6-l1"></div>
+                    <div class="box" id="g6-l2"></div>
+                    <div class="box" id="g6-l3"></div>
+                    <div class="box" id="g6-l4"></div>
+                    <div class="box" id="g6-l5"></div>
                 </div>
             </div>
+
+            <div id="result"></div>
+
+            <div id="keyboard"></div>
+
+            <div class="spacer"></div>
+
         </main>
         <script src="script.js"></script>
-        <script src="https://kit.fontawesome.com/5dbbbfb0c5.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/db74b355a3.js" crossorigin="anonymous"></script>
     </body>
 </html>
