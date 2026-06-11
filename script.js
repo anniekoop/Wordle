@@ -103,7 +103,7 @@ function checkGuess() {
     if (currentGuess.length === 5) {
         const targetLetterCount = {};
         for (let i = 0; i < 5; i++) {
-            targetLetterCount[targetWord[i]] = (targetLetterCount[targetWord[i]] || 0) + 1;
+            targetLetterCount[targetWord[i] = (targetLetterCount[targetWord[i]] || 0) + 1;
         }
 
         const currentLetterCount = {};
